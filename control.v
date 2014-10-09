@@ -3,15 +3,15 @@
 //OpCodes
 
 //R type instructions
-`define OPCODE_ADD 6'b000000
-`define OPCODE_SUB 6'b000000
-`define OPCODE_AND 6'b000000
-`define OPCODE_OR  6'b000000
-`define OPCODE_NOT 6'b000000
-`define OPCODE_XOR 6'b000000
-`define OPCODE_SLA 6'b000000
-`define OPCODE_SRA 6'b000000
-`define OPCODE_SRL 6'b000000
+`define OPCODE_ADD 6'b00000
+`define OPCODE_SUB 6'b00000
+`define OPCODE_AND 6'b00000
+`define OPCODE_OR  6'b00000
+`define OPCODE_NOT 6'b00000
+`define OPCODE_XOR 6'b00000
+`define OPCODE_SLA 6'b00000
+`define OPCODE_SRA 6'b00000
+`define OPCODE_SRL 6'b00000
 
 //Function codes of ISA  - R type only
 `define ADD 4'b0000
@@ -34,7 +34,7 @@ module control_unit(opcode, ALUop);
 
   always @(opcode) begin
     case(opcode)
-      6'b000000: begin
+      6'b00010: begin    //means AR opcode
           ALUop <= 4'b1111;
       end
     endcase

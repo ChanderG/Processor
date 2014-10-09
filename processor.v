@@ -1,8 +1,25 @@
 //Processor module
 
+//Right now ONLY supports AR type instructions
+
 module Proc();
   //Some inputs and outputs
+  wire regWrite;  //8  //input to Register_File from Controller
+  wire CLK;       //???
+  wire RESET;     //???
 
+  wire [31:0] instr;    //the actual instruction read from memory
+  /* implying ->
+     considering for a AR instruction
+
+     instr[31:27] -> opcode
+     instr[26:23] -> func code
+     instr[22:19] -> source reg 1
+     instr[18:15] -> source reg 2
+     instr[14:11] -> dest reg
+     instr[10:0]  -> don't care
+
+  */
 
   //CPU modules
 
@@ -12,21 +29,22 @@ module Proc();
   reg [31:0] alu_output;    //4
   wire alu_cout;            //NID , use case not yet seen
 
-  //The ALU with the correct inputs and outputs
-  alu aluUnit(alu_inputA, alu_inputB, alu_control, alu_output, alu_cout);
+
 
   wire [3:0] alu_op;        //5
   wire [5:0] func_code;     //6
 
+  //The control unit
+  control_unit controlUnit(instr[31:27], alu_op);
+
   //the aluControl unit
   aluControl_unit aluControlUnit(alu_op, func_code, alu_control);
 
-  wire [5:0] op_code;       //7
-
-  //The control unit
-  control_unit controlUnit(op_code, alu_code);
+  //The ALU with the correct inputs and outputs
+  alu aluUnit(alu_inputA, alu_inputB, alu_control, alu_output, alu_cout);
 
   //the register file
-  //
+  //REQ UPDATE
+  registerFile registerBank(alu_inputA, alu_inputB, instr[22:19], instr[18:15], alu_output, instr[14:11], regWrite, CLK, RESET);
 
 endmodule

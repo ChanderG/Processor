@@ -8,6 +8,8 @@ module Proc();
   wire CLK;       //???
   wire RESET;     //???
 
+  clock clk(CLK);  //instantiate clock module
+
   wire [31:0] instr;    //the actual instruction read from memory
   /* implying ->
      considering for a AR instruction

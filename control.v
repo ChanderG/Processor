@@ -26,9 +26,10 @@
 
 
 
-module control_unit(opcode, ALUop);
+module control_unit(opcode, ALUop, regWrite);
 
-  input [5:0] opcode;
+  input [4:0] opcode;
+  output reg regWrite;   //to write to register file
   output [3:0] ALUop;
   reg [3:0] ALUop;
 
@@ -36,6 +37,7 @@ module control_unit(opcode, ALUop);
     case(opcode)
       6'b00010: begin    //means AR opcode
           ALUop <= 4'b1111;
+          regWrite <= 1;
       end
     endcase
   end

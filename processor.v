@@ -4,11 +4,11 @@
 
 module Proc();
   //Some inputs and outputs
-  wire regWrite;  //8  //input to Register_File from Controller
+  reg regWrite;  //8  //input to Register_File from Controller
   wire CLK;       //???
   wire RESET;     //???
 
-  clock clk(CLK);  //instantiate clock module
+  m555 clk(CLK);  //instantiate clock module
 
   wire [31:0] instr;    //the actual instruction read from memory
   /* implying ->
@@ -27,20 +27,16 @@ module Proc();
 
   reg [31:0] alu_inputA;    //1
   reg [31:0] alu_inputB;    //2
-  wire [3:0] alu_control;   //3
+  wire [3:0] alu_control;   //3  - between aluctrl and alu
   reg [31:0] alu_output;    //4
   wire alu_cout;            //NID , use case not yet seen
-
-
-
-  wire [3:0] alu_op;        //5
-  wire [5:0] func_code;     //6
+  wire [3:0] alu_op;        //5  - between aluctrl and ctrl
 
   //The control unit
-  control_unit controlUnit(instr[31:27], alu_op);
+  control_unit controlUnit(instr[31:27], alu_op, regWrite);
 
   //the aluControl unit
-  aluControl_unit aluControlUnit(alu_op, func_code, alu_control);
+  aluControl_unit aluControlUnit(alu_op, instr[26:23], alu_control);
 
   //The ALU with the correct inputs and outputs
   alu aluUnit(alu_inputA, alu_inputB, alu_control, alu_output, alu_cout);

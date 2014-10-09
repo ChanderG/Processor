@@ -15,7 +15,7 @@
 // Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
-module sla(
+module slaop(
     input [31:0] a,
     input [31:0] b ,
     output [31:0] out
@@ -28,7 +28,9 @@ module sla(
     always @(a or b)
     begin
     if (b[0] == 1)
-      out = 2*a;
+      out = a<<1 ;
+    else
+      out = a;
     end
 
 endmodule

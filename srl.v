@@ -15,13 +15,21 @@
 // Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
-module srl(
+module srlop(
     input [31:0] a,
     input [31:0] b ,
     output [31:0] out
     );
 
     //This is the behavioural version.
-    //????
+    reg [31:0] out;
+
+    always @(a or b)
+    begin
+    if (b[0] == 1)
+        out = ($signed(a)>>>1);
+        else
+            out =a;
+    end
 
 endmodule

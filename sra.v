@@ -15,7 +15,7 @@
 // Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
-module sra(
+module sraop(
     input [31:0] a,
     input [31:0] b ,
     output [31:0] out
@@ -27,7 +27,9 @@ module sra(
     always @(a or b)
     begin
     if (b[0] == 1)
-      out = a/2;
+      out = ($signed(a)>>>1);
+      else
+          out = a;
     end
 
 endmodule

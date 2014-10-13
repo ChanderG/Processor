@@ -53,8 +53,8 @@ module Proc();
   //input wires for reg bank
   //wire [3:0] readReg1;
   //wire [3:0] readReg2;
-  wire [3:0] writeReg;
-  wire [31:0] writeData;
+  reg [3:0] writeReg;
+  reg [31:0] writeData;
 
   //Mux for write register
   MUX4_2to1 mWriteRegB (instr[14:11], instr[22:19], C_ART_reg, writeReg);

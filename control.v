@@ -33,8 +33,8 @@ module control_unit(opcode, ALUop, regWrite, muxWriteReg, muxWriteData);
   output [3:0] ALUop;
   reg [3:0] ALUop;
 
-  input muxWriteReg;
-  input muxWriteData;
+  output reg muxWriteReg;
+  output reg muxWriteData;
 
   always @(opcode) begin
     case(opcode)

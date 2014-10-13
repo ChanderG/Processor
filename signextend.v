@@ -1,0 +1,10 @@
+//sign extend
+
+//for use with AR-T conflict, for write data
+module signExtend19(in, out);
+   parameter INSIZE = 19, OUTSIZE = 32;
+
+   input [INSIZE-1:0] in;
+   output [OUTSIZE-1:0] out;
+   assign    out = {{ OUTSIZE-INSIZE {in[INSIZE-1]}}, in};
+endmodule

@@ -26,18 +26,29 @@
 
 
 
-module control_unit(opcode, ALUop, regWrite);
+module control_unit(opcode, ALUop, regWrite, muxWriteReg, muxWriteData);
 
   input [4:0] opcode;
   output reg regWrite;   //to write to register file
   output [3:0] ALUop;
   reg [3:0] ALUop;
 
+  input muxWriteReg;
+  input muxWriteData;
+
   always @(opcode) begin
     case(opcode)
       6'b00010: begin    //means AR opcode
           ALUop <= 4'b1111;
           regWrite <= 1;
+          muxWriteReg <= 0;
+          muxWriteData <= 0;
+      end
+       6'b01011: begin    //means T opcode
+          ALUop <= 4'b1111;   //Not yet implemented - is dont care - check up!!!!!
+          regWrite <= 1;
+          muxWriteReg <= 1;
+          muxWriteData <= 1;
       end
     endcase
   end

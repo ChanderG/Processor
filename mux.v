@@ -1,6 +1,6 @@
 //all the required MUX's
 
-
+//needed for conflict in IR-RB dest reg between AR and T type
 module MUX4_2to1(in0, in1, sel, out);
    input [3:0]  in0, in1;
    input    sel;
@@ -11,3 +11,17 @@ module MUX4_2to1(in0, in1, sel, out);
       if (sel == 0) out = in0;
       else          out = in1;
 endmodule
+
+
+//needed for conflict in IR-RB constant val between AR and T type
+module MUX32_2to1(in0, in1, sel, out);
+   input [31:0]  in0, in1;
+   input    sel;
+   output [31:0] out;
+   reg [31:0] out;
+
+   always @(in0 or in1 or sel)
+      if (sel == 0) out = in0;
+      else          out = in1;
+endmodule
+

@@ -11,6 +11,7 @@ begin
 
 if(ALUop!=4'b1111)
     begin
+    
         /*
         case(FuncCode)
 

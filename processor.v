@@ -26,7 +26,7 @@ module Proc();
      instr[31:27] -> opcode
      instr[26:23] -> func code
      instr[22:19] -> dest register
-     instr[18:0] -> the most important constant Input 
+     instr[18:0] -> the most important constant Input
   */
 
   //CPU modules
@@ -38,8 +38,11 @@ module Proc();
   wire alu_cout;            //NID , use case not yet seen
   wire [3:0] alu_op;        //5  - between aluctrl and ctrl
 
+  wire C_ART_reg;   //selection line for mWriteRegB
+  wire C_ART_data;   //selection line for mWriteDataB
+
   //The control unit
-  control_unit controlUnit(instr[31:27], alu_op, regWrite);
+  control_unit controlUnit(instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data);
 
   //the aluControl unit
   aluControl_unit aluControlUnit(alu_op, instr[26:23], alu_control);
@@ -47,8 +50,24 @@ module Proc();
   //The ALU with the correct inputs and outputs
   alu aluUnit(alu_inputA, alu_inputB, alu_control, alu_output, alu_cout);
 
+  //input wires for reg bank
+  //wire [3:0] readReg1;
+  //wire [3:0] readReg2;
+  wire [3:0] writeReg;
+  wire [31:0] writeData;
+
+  //Mux for write register
+  MUX4_2to1 mWriteRegB (instr[14:11], instr[22:19], C_ART_reg, writeReg);
+
+  //Sign extending in case of T
+  wire [31:0] extendedOut;
+  signExtend19 sE(instr[18:0], extendedOut);
+
+  //Mux for write data
+  MUX32_2to1 mWriteDataB (alu_output, extendedOut, C_ART_data, writeData);
+
   //the register file
   //REQ UPDATE
-  registerFile registerBank(alu_inputA, alu_inputB, instr[22:19], instr[18:15], alu_output, instr[14:11], regWrite, CLK, RESET);
+  registerFile registerBank(alu_inputA, alu_inputB, instr[22:19], instr[18:15], writeReg, writeData, regWrite, CLK, RESET);
 
 endmodule

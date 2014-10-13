@@ -2,7 +2,7 @@
 //Has the 16 general purpose 32 bit registers
 
 
-module registerFile(Read1, Read2,Raddr1, Raddr2, Writedata,  Waddr, RegWr, CLK, RESET);
+module registerFile(Read1, Read2,Raddr1, Raddr2, Waddr,Writedata,RegWr, CLK, RESET);
     output [31:0] Read1;   //registers to be read
     output [31:0] Read2;
     input [31:0] Writedata;     //content to be written

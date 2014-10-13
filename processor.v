@@ -8,9 +8,9 @@ module Proc();
   wire CLK;       //???
   wire RESET;     //???
 
-  m555 clk(CLK);  //instantiate clock module
+  //m555 clk(CLK);  //instantiate clock module
 
-  wire [31:0] instr;    //the actual instruction read from memory
+  reg [31:0] instr;    //the actual instruction read from memory
   /* implying ->
      considering for a AR instruction
 
@@ -21,6 +21,12 @@ module Proc();
      instr[14:11] -> dest reg
      instr[10:0]  -> don't care
 
+     for T instruction
+
+     instr[31:27] -> opcode
+     instr[26:23] -> func code
+     instr[22:19] -> dest register
+     instr[18:0] -> the most important constant Input 
   */
 
   //CPU modules

@@ -15,6 +15,9 @@ module Proc();
   programCounter pcManager(pc, pc, RESET, startPC, CLK);
 
   reg [31:0] instr;    //the actual instruction read from memory
+
+  instrMemory im(instr, pc);
+
   /* implying ->
      considering for a AR instruction
 
@@ -76,7 +79,7 @@ module Proc();
 
   //example testing
   initial begin
-    instr <= 32'b00010000000000001001000000000000;
+
   end
 
 endmodule

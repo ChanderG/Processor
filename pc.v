@@ -13,7 +13,9 @@ always @(negedge CLK)
 begin
  if (RESET==0)
     next <= startPC;
- else
+ else begin
     next <= current+32'd4;
+    $display("Step execution completed.");
+ end
 end
 endmodule

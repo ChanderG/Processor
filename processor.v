@@ -9,7 +9,7 @@ module Proc();
   wire RESET;     //???
   wire[31:0] startPC;  ///???
 
-  //m555 clk(CLK);  //instantiate clock module
+  m555 clk(CLK);  //instantiate clock module
 
   wire [31:0] pc;
   programCounter pcManager(pc, pc, RESET, startPC, CLK);
@@ -73,5 +73,10 @@ module Proc();
   //the register file
   //REQ UPDATE
   registerFile registerBank(alu_inputA, alu_inputB, instr[22:19], instr[18:15], writeReg, writeData, regWrite, CLK, RESET);
+
+  //example testing
+  initial begin
+    instr <= 32'b00010000000000001001000000000000;
+  end
 
 endmodule

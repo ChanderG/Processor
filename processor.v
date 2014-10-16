@@ -7,8 +7,12 @@ module Proc();
   reg regWrite;  //8  //input to Register_File from Controller
   wire CLK;       //???
   wire RESET;     //???
+  wire[31:0] startPC;  ///???
 
   //m555 clk(CLK);  //instantiate clock module
+
+  wire [31:0] pc;
+  programCounter pcManager(pc, pc, RESET, startPC, CLK);
 
   reg [31:0] instr;    //the actual instruction read from memory
   /* implying ->

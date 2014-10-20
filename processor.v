@@ -6,8 +6,8 @@ module Proc(RESET, startPC);
   //Some inputs and outputs
   reg regWrite;  //8  //input to Register_File from Controller
   wire CLK;       //???
-  input reg RESET;     //???
-  input reg[31:0] startPC;  ///???
+  input wire RESET;     //???
+  input wire[31:0] startPC;  ///???
 
   //testing reset
   //assign RESET = 1;
@@ -16,9 +16,11 @@ module Proc(RESET, startPC);
   m555 clk(CLK);  //instantiate clock module
 
   reg [31:0] pc;
+  /*
   initial begin
     pc = 32'h00;
   end
+  */
   programCounter pcManager(pc, pc, RESET, startPC, CLK);
 
   reg [31:0] instr;    //the actual instruction read from memory

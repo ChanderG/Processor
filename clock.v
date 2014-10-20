@@ -1,7 +1,7 @@
 //Clock module - NOT TESTED
 
 module m555(clock);
-    parameter InitDelay = 10, Ton = 50, Toff = 50;
+    parameter InitDelay = 1, Ton = 1, Toff = 1;
     output clock;
     reg clock;
 

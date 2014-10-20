@@ -2,16 +2,23 @@
 
 //Right now ONLY supports AR type instructions
 
-module Proc();
+module Proc(RESET, startPC);
   //Some inputs and outputs
   reg regWrite;  //8  //input to Register_File from Controller
   wire CLK;       //???
-  wire RESET;     //???
-  wire[31:0] startPC;  ///???
+  input reg RESET;     //???
+  input reg[31:0] startPC;  ///???
+
+  //testing reset
+  //assign RESET = 1;
+  //assign startPC = 0;
 
   m555 clk(CLK);  //instantiate clock module
 
-  wire [31:0] pc;
+  reg [31:0] pc;
+  initial begin
+    pc = 32'h00;
+  end
   programCounter pcManager(pc, pc, RESET, startPC, CLK);
 
   reg [31:0] instr;    //the actual instruction read from memory

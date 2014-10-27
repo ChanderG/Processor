@@ -58,7 +58,7 @@ module Proc(RESET, startPC);
   wire C_ART_data;   //selection line for mWriteDataB
 
   //The control unit
-  control_unit controlUnit(instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data);
+  control_unit controlUnit(CLK, instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data);
 
   //the aluControl unit
   aluControl_unit aluControlUnit(alu_op, instr[26:23], alu_control);

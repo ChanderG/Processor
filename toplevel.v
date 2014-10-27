@@ -16,13 +16,13 @@ module topLevelRunner(RESET, startPC);
   initial begin
      //starting the computer
      RESET <= 0; startPC <= 0;
-     /*
+
      #101
      RESET <= 1;
      #1000
      RESET <= 0;
      $finish;
-     */
+
   end
 
 endmodule

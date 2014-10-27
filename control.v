@@ -26,8 +26,9 @@
 
 
 
-module control_unit(opcode, ALUop, regWrite, muxWriteReg, muxWriteData);
+module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData);
 
+  input CLK;
   input [4:0] opcode;
   output reg regWrite;   //to write to register file
   output [3:0] ALUop;
@@ -36,15 +37,18 @@ module control_unit(opcode, ALUop, regWrite, muxWriteReg, muxWriteData);
   output reg muxWriteReg;
   output reg muxWriteData;
 
-  always @(opcode) begin
+  always @(posedge CLK) begin
+  //always @(opcode) begin
     case(opcode)
       6'b00010: begin    //means AR opcode
+          $display("AR nstr found at %d", $time);
           ALUop <= 4'b1111;
           regWrite <= 1;
           muxWriteReg <= 0;
           muxWriteData <= 0;
       end
        6'b01011: begin    //means T opcode
+          $display("T instr found at %d", $time);
           ALUop <= 4'b1111;   //Not yet implemented - is dont care - check up!!!!!
           regWrite <= 1;
           muxWriteReg <= 1;

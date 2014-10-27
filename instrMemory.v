@@ -10,12 +10,21 @@ module instrMemory(instr, address);
     always @(address) begin
        case(address)
         //load the program here
-        32'h00 : instr = 32'b01011000000000000000000000001111;
+        32'h00 : begin
+                 instr = 32'b01011000000000000000000000001111;
                          //movi r0, 15
-        32'h04 : instr = 32'b01011000000010000000000000010000;
+                  $display("First line of code at %d", $time);
+                  end
+        32'h04 : begin
+                 instr = 32'b01011000000010000000000000010000;
                          //movi r1, 16
-        32'h08 : instr = 32'b00010000000000001001000000000000;
+                 $display("Second line of code at %d", $time);
+                 end
+        32'h08 : begin
+                 instr = 32'b00010000000000001001000000000000;
                          //add r2, r0,r1
+                 $display("Third line of code at %d", $time);
+                 end
        endcase
     end
 

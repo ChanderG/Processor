@@ -1,7 +1,7 @@
 //Clock module - NOT TESTED
 
 module m555(clock);
-    parameter InitDelay = 1, Ton = 1, Toff = 1;
+    parameter InitDelay = 0, Ton = 50, Toff = 50;
     output clock;
     reg clock;
 
@@ -12,5 +12,6 @@ module m555(clock);
     always begin
         #Ton clock = ~clock;
         #Toff clock = ~clock;
+        #0 $display("clock toggle - %d.",$time);
     end
 endmodule

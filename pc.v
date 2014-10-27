@@ -12,11 +12,13 @@ reg [31:0] next;
 
 always @(negedge CLK)
 begin
- if (RESET==0)
+ if (RESET==0) begin
     next = startPC;
+    #0 $display("Started program - %d.", $time);
+ end
  else begin
     next = current+32'd4;
-    $display("Step execution completed.");
+    $display("Step execution completed - %d.",$time);
  end
 end
 endmodule

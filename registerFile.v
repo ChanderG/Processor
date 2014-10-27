@@ -40,7 +40,7 @@ module registerFile(Read1, Read2,Raddr1, Raddr2, Waddr,Writedata,RegWr, CLK, RES
     assign Read2 =registers[Raddr2];
 
     //write to registers
-    always @(negedge CLK)
+    always @(posedge CLK)
     begin
         if(RegWr)
         begin

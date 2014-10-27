@@ -40,12 +40,16 @@ module registerFile(Read1, Read2,Raddr1, Raddr2, Waddr,Writedata,RegWr, CLK, RES
     assign Read2 =registers[Raddr2];
 
     //write to registers
-    always @(posedge CLK)
+    always @(negedge CLK)
     begin
-        if(RegWr)
+        if(RegWr == 1)
         begin
-            registers[Waddr] <= Writedata;
-             $display("Answer: %d + %d = %d", registers[0], registers[1], registers[2]);
+            registers[Waddr] = Writedata;
+            $display("RW = %d at %d", RegWr, $time);
+            $display("WD = %d", Writedata);
+            $display("WD = %d", Waddr); 
+            $display("WD = %d", registers[Waddr]);
+            //$display("Answer: %s + %s = %s", registers[0], registers[1], registers[2]);
         end
     end
 

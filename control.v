@@ -26,9 +26,9 @@
 
 
 
-module control_unit(opcode, ALUop, regWrite, muxWriteReg, muxWriteData);
+module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData);
 
-  //input CLK;
+  input CLK;
   input [4:0] opcode;
   output reg regWrite;   //to write to register file
   output [3:0] ALUop;
@@ -37,8 +37,8 @@ module control_unit(opcode, ALUop, regWrite, muxWriteReg, muxWriteData);
   output reg muxWriteReg;
   output reg muxWriteData;
 
-  //always @(posedge CLK) begin
-  always @(opcode) begin
+  always @(posedge CLK) begin
+  //always @(opcode) begin
     case(opcode)
       6'b00010: begin    //means AR opcode
           $display("AR instr found at %d", $time);

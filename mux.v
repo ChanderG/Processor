@@ -7,9 +7,16 @@ module MUX4_2to1(in0, in1, sel, out);
    output [3:0] out;
    reg [3:0] out;
 
+
    always @(in0 or in1 or sel)
-      if (sel == 0) out = in0;
+   //begin
+      if (sel == 1'b0) out = in0;
       else          out = in1;
+   //end
+
+
+   //assign out = (sel)?in1:in0;
+
 endmodule
 
 
@@ -20,8 +27,15 @@ module MUX32_2to1(in0, in1, sel, out);
    output [31:0] out;
    reg [31:0] out;
 
+
    always @(in0 or in1 or sel)
-      if (sel == 0) out = in0;
+   //begin
+      if (sel == 1'b0) out = in0;
       else          out = in1;
+   //end
+
+
+    //assign out = (sel)?in1:in0;
+
 endmodule
 

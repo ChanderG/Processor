@@ -1,0 +1,7 @@
+*.SchDoc
+*.VERTST
+*.PrjFpg
+*.PrjFpgStructure
+History/
+ProjectOutputs/
+

@@ -21,8 +21,8 @@ module instrMemory(instr, address);
                  $display("Second line of code at %d", $time);
                  end
         32'd08 : begin
-                 instr = 32'b01011000000110000000000000010010;
-                         //movi r3, 18
+                 instr = 32'b00011000000000000000000000000001;
+                         //br 1 -> should jump to fifth line directly
                  $display("Third line of code at %d", $time);
                  end
         32'd12 : begin

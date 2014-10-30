@@ -21,7 +21,13 @@ module Proc(RESET, startPC);
     pc = 32'h00;
   end
   */
-  programCounter pcManager(pc, pc, RESET, startPC, CLK);
+
+  reg pcSrc;
+  reg [31:0] offset;  //for jump
+
+  signExtend23 sE23(instr[22:0], offset);
+
+  programCounter pcManager(pc, pc, RESET, startPC, CLK, pcSrc, offset);
 
   reg [31:0] instr;    //the actual instruction read from memory
 
@@ -51,6 +57,11 @@ module Proc(RESET, startPC);
      instr[22:19] -> dest register  as well as source register
      instr[18:0] -> the immediate constant
 
+     for J instruction
+
+     instr[31:27] -> opcode
+     instr[26:23] -> func code
+     instr[22:0] -> number of words to jump
   */
 
   //CPU modules
@@ -66,7 +77,7 @@ module Proc(RESET, startPC);
   wire C_ART_data;   //selection line for mWriteDataB
 
   //The control unit
-  control_unit controlUnit(CLK, instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data, C_reg2_aluB_mux);
+  control_unit controlUnit(CLK, instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data, C_reg2_aluB_mux, pcSrc);
 
   //the aluControl unit
   aluControl_unit aluControlUnit(alu_op, instr[26:23], alu_control);
@@ -85,7 +96,7 @@ module Proc(RESET, startPC);
 
   //Sign extending in case of T and I
   wire [31:0] extendedOut;
-  signExtend19 sE(instr[18:0], extendedOut);
+  signExtend19 sE19(instr[18:0], extendedOut);
 
   //Mux for write data
   MUX32_2to1 mWriteDataB (alu_output, extendedOut, C_ART_data, writeData);

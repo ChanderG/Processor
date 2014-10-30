@@ -6,7 +6,8 @@ module registerFile(Read1, Read2,Raddr1, Raddr2, Waddr,Writedata,RegWr, CLK, RES
     output [31:0] Read1;   //registers to be read
     output [31:0] Read2;
     input [31:0] Writedata;     //content to be written
-    input [4:0] Raddr1, Raddr2, Waddr;   // 5 bit - bits on Instruction
+    input [3:0] Raddr1, Raddr2;   // 5 bit - bits on Instruction
+    input  [3:0] Waddr;
     input RegWr;   //flag to write
     input CLK, RESET;             //not yet verified
     reg [31:0] registers [0:15];  //untested
@@ -47,9 +48,9 @@ module registerFile(Read1, Read2,Raddr1, Raddr2, Waddr,Writedata,RegWr, CLK, RES
             registers[Waddr] = Writedata;
             $display("RW = %d at %d", RegWr, $time);
             $display("WD = %d", Writedata);
-            $display("WD = %d", Waddr); 
+            $display("Waddress = %d", Waddr);
             $display("WD = %d", registers[Waddr]);
-            //$display("Answer: %s + %s = %s", registers[0], registers[1], registers[2]);
+            $display("Answer: %s + %s = %s", registers[0], registers[1], registers[2]);
         end
     end
 

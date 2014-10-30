@@ -9,10 +9,10 @@ module MUX4_2to1(in0, in1, sel, out);
 
 
    always @(in0 or in1 or sel)
-   //begin
+   begin
       if (sel == 1'b0) out = in0;
       else          out = in1;
-   //end
+   end
 
 
    //assign out = (sel)?in1:in0;
@@ -29,10 +29,10 @@ module MUX32_2to1(in0, in1, sel, out);
 
 
    always @(in0 or in1 or sel)
-   //begin
+   begin
       if (sel == 1'b0) out = in0;
       else          out = in1;
-   //end
+   end
 
 
     //assign out = (sel)?in1:in0;

@@ -43,6 +43,14 @@ module Proc(RESET, startPC);
      instr[26:23] -> func code
      instr[22:19] -> dest register
      instr[18:0] -> the most important constant Input
+
+     for I instruction
+
+     instr[31:27] -> opcode
+     instr[26:23] -> func code
+     instr[22:19] -> dest register  as well as source register
+     instr[18:0] -> the immediate constant
+
   */
 
   //CPU modules
@@ -58,7 +66,7 @@ module Proc(RESET, startPC);
   wire C_ART_data;   //selection line for mWriteDataB
 
   //The control unit
-  control_unit controlUnit(CLK, instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data);
+  control_unit controlUnit(CLK, instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data, C_reg2_aluB_mux);
 
   //the aluControl unit
   aluControl_unit aluControlUnit(alu_op, instr[26:23], alu_control);
@@ -75,16 +83,23 @@ module Proc(RESET, startPC);
   //Mux for write register
   MUX4_2to1 mWriteRegB (instr[14:11], instr[22:19], C_ART_reg, writeReg);
 
-  //Sign extending in case of T
+  //Sign extending in case of T and I
   wire [31:0] extendedOut;
   signExtend19 sE(instr[18:0], extendedOut);
 
   //Mux for write data
   MUX32_2to1 mWriteDataB (alu_output, extendedOut, C_ART_data, writeData);
 
+  //wire from read reg 2 to Mux
+  reg [31:0] readReg2ToMux;
+
+  //MUX for alu input B
+  MUX32_2to1 mAluInputB (readReg2ToMux, extendedOut, C_reg2_aluB_mux, alu_inputB);
+
+
   //the register file
   //REQ UPDATE
-  registerFile registerBank(alu_inputA, alu_inputB, instr[22:19], instr[18:15], writeReg, writeData, regWrite, CLK, RESET);
+  registerFile registerBank(alu_inputA, readReg2ToMux, instr[22:19], instr[18:15], writeReg, writeData, regWrite, CLK, RESET);
 
   //example testing
   initial begin

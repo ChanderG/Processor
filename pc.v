@@ -18,7 +18,7 @@ begin
  end
  else begin
     next = current+32'd4;
-    $display("Step execution completed - %d.",$time);
+    $display("New instr %d at %d.",next, $time);
  end
 end
 endmodule

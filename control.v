@@ -26,7 +26,7 @@
 
 
 
-module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData);
+module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_reg2_aluB_mux);
 
   input CLK;
   input [4:0] opcode;
@@ -36,9 +36,10 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData);
 
   output reg muxWriteReg;
   output reg muxWriteData;
+  output reg C_reg2_aluB_mux;
 
-  always @(posedge CLK) begin
-  //always @(opcode) begin
+  //always @(posedge CLK) begin
+  always @(opcode) begin
     case(opcode)
       6'b00010: begin    //means AR opcode
           $display("AR instr found at %d", $time);
@@ -46,13 +47,23 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData);
           regWrite <= 1;
           muxWriteReg <= 0;
           muxWriteData <= 0;
+          C_reg2_aluB_mux <= 0;
       end
-       6'b01011: begin    //means T opcode
+      6'b01011: begin    //means T opcode
           $display("T instr found at %d", $time);
           ALUop <= 4'b1111;   //Not yet implemented - is dont care - check up!!!!!
           regWrite <= 1;
           muxWriteReg <= 1;
           muxWriteData <= 1;
+          C_reg2_aluB_mux <= 0;
+      end
+      6'b00001: begin    //means I opcode
+          $display("I instr found at %d", $time);
+          ALUop <= 4'b1111;   //Not yet implemented - is dont care - check up!!!!!
+          regWrite <= 1;
+          muxWriteReg <= 1;         //the reg to write to
+          muxWriteData <= 0;        //the output of the alu
+          C_reg2_aluB_mux <= 1;     //the constant
       end
     endcase
   end

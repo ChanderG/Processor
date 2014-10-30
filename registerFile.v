@@ -50,20 +50,8 @@ module registerFile(Read1, Read2,Raddr1, Raddr2, Waddr,Writedata,RegWr, CLK, RES
             $display("WD = %d", Writedata);
             $display("Waddress = %d", Waddr);
             $display("WD = %d", registers[Waddr]);
-            $display("Answer: %s + %s = %s", registers[0], registers[1], registers[2]);
+            //$display("Answer: %d + %d = %d", registers[0], registers[1], registers[2]);
         end
     end
 
-    //prelim testing of ar type - not ironed out
-    /*
-    initial begin
-      //registers[0] = 1;
-      //registers[1] = 1;
-      //registers[2] = 1;
-      #10
-      $display("Answer: %d + %d = %d", registers[0], registers[1], registers[2]);
-      #40
-      $display("Answer: %d + %d = %d", registers[0], registers[1], registers[2]);
-    end
-    */
 endmodule

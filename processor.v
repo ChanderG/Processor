@@ -23,15 +23,23 @@ module Proc(RESET, startPC);
   */
 
   reg pcSrc;
-  reg [31:0] offset;  //for jump
+  reg [31:0] offset1;  //for jump
+  reg [31:0] offset2;  //for jump
+  reg [31:0] offset_res;  //for jump
 
-  signExtend23 sE23(instr[22:0], offset);
+  signExtend23 sE23(instr[22:0], offset1);
+  signExtend19 sE192(instr[18:0], offset2);
 
-  programCounter pcManager(pc, pc, RESET, startPC, CLK, pcSrc, offset);
+  MUX32_2to1 mBrOffset (offset1, offset2, C_offset, offset_res);
+
+  programCounter pcManager(pc, pc, RESET, startPC, CLK, pcSrc, offset_res);
 
   reg [31:0] instr;    //the actual instruction read from memory
 
   instrMemory im(instr, pc);
+
+  reg branchIdea;
+  branchComparator bc(alu_inputA, instr[26:23], branchIdea);
 
   /* implying ->
      considering for a AR instruction
@@ -62,6 +70,13 @@ module Proc(RESET, startPC);
      instr[31:27] -> opcode
      instr[26:23] -> func code
      instr[22:0] -> number of words to jump
+
+     for M instruction
+
+     instr[31:27] -> opcode
+     instr[26:23] -> func code
+     instr[22:19] -> the register to compare
+     instr[18:0] -> number of words to branch
   */
 
   //CPU modules
@@ -77,7 +92,7 @@ module Proc(RESET, startPC);
   wire C_ART_data;   //selection line for mWriteDataB
 
   //The control unit
-  control_unit controlUnit(CLK, instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data, C_reg2_aluB_mux, pcSrc);
+  control_unit controlUnit(CLK, instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data, C_reg2_aluB_mux, pcSrc, branchIdea, C_offset);
 
   //the aluControl unit
   aluControl_unit aluControlUnit(alu_op, instr[26:23], alu_control);

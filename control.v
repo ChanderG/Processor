@@ -26,7 +26,7 @@
 
 
 
-module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_reg2_aluB_mux, pcSrc);
+module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_reg2_aluB_mux, pcSrc, branchIdea, C_offset);
 
   input CLK;
   input [4:0] opcode;
@@ -38,6 +38,8 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_r
   output reg muxWriteData;
   output reg C_reg2_aluB_mux;
   output reg pcSrc;
+  input branchIdea;
+  output reg C_offset;
 
   //always @(posedge CLK) begin
   always @(opcode) begin
@@ -77,6 +79,17 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_r
           //muxWriteData <= 0;        //the output of the alu
           //C_reg2_aluB_mux <= 1;     //the constant
           pcSrc <= 1;
+          C_offset <= 0;
+      end
+      6'b00100: begin    //means M opcode
+          $display("M instr found at %d", $time);
+          //ALUop <= 4'b1111;   //Not yet implemented - is dont care - check up!!!!!
+          //regWrite <= 1;
+          //muxWriteReg <= 1;         //the reg to write to
+          //muxWriteData <= 0;        //the output of the alu
+          //C_reg2_aluB_mux <= 1;     //the constant
+          C_offset <= 1;
+          pcSrc <= branchIdea;
       end
     endcase
   end

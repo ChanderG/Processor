@@ -42,7 +42,7 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_r
   output reg C_offset;
 
   //always @(posedge CLK) begin
-  always @(opcode) begin
+  always @(opcode or branchIdea) begin
     case(opcode)
       6'b00010: begin    //means AR opcode
           $display("AR instr found at %d", $time);

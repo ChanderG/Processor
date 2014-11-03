@@ -11,8 +11,8 @@ module instrMemory(instr, address);
        case(address)
         //load the program here
         32'd00 : begin
-                 instr = 32'b01011000000000000000000000001111;
-                         //movi r0, 15
+                 instr = 32'b01011000000000000000000000000000;
+                         //movi r0, 0
                   $display("First line of code at %d", $time);
                   end
         32'd04 : begin
@@ -21,8 +21,9 @@ module instrMemory(instr, address);
                  $display("Second line of code at %d", $time);
                  end
         32'd08 : begin
-                 instr = 32'b00011000000000000000000000000001;
-                         //br 1 -> should jump to fifth line directly
+                 instr = 32'b00100000000000000000000000000001;
+                         //bz r0, 1 -> should jump to fifth line directly
+                         //iff r0 is 0 
                  $display("Third line of code at %d", $time);
                  end
         32'd12 : begin

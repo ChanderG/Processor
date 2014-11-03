@@ -13,6 +13,17 @@ module Proc(RESET, startPC);
   //assign RESET = 1;
   //assign startPC = 0;
 
+  //CPU modules
+
+  reg [31:0] alu_inputA;    //1
+  reg [31:0] alu_inputB;    //2
+  wire [3:0] alu_control;   //3  - between aluctrl and alu
+  reg [31:0] alu_output;    //4
+  wire alu_cout;            //NID , use case not yet seen
+  wire [3:0] alu_op;        //5  - between aluctrl and ctrl
+
+  wire C_ART_reg;   //selection line for mWriteRegB
+  wire C_ART_data;   //selection line for mWriteDataB
   m555 clk(CLK);  //instantiate clock module
 
   reg [31:0] pc;
@@ -79,17 +90,6 @@ module Proc(RESET, startPC);
      instr[18:0] -> number of words to branch
   */
 
-  //CPU modules
-
-  reg [31:0] alu_inputA;    //1
-  reg [31:0] alu_inputB;    //2
-  wire [3:0] alu_control;   //3  - between aluctrl and alu
-  reg [31:0] alu_output;    //4
-  wire alu_cout;            //NID , use case not yet seen
-  wire [3:0] alu_op;        //5  - between aluctrl and ctrl
-
-  wire C_ART_reg;   //selection line for mWriteRegB
-  wire C_ART_data;   //selection line for mWriteDataB
 
   //The control unit
   control_unit controlUnit(CLK, instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data, C_reg2_aluB_mux, pcSrc, branchIdea, C_offset);

@@ -9,5 +9,8 @@ I will soon post links to the exact specification and the ISA we created.
 
 1.We used Altium Designer and Aldec Simulator. The Simulator does not reflect changes in the code base when "reset". The only safe way to work with it is to "end" the session and start over.
 
+###Known Issues
+1.Works only for positive numbers. Any calculation resulting in negative numbers crashes the m/c.
+
 ###Special Thanks
 1. Pranay Yadav

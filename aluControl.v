@@ -10,7 +10,11 @@ always @ (ALUCtrl or ALUop or FuncCode)
 begin
 if(ALUop!=4'b1111)
     begin
-
+      case(ALUop)
+        4'b0000: begin //means L type
+                 ALUCtrl = 4'b0000;
+                 end
+      endcase
         /*
         case(FuncCode)
 

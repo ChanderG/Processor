@@ -18,10 +18,16 @@ reg [31:0] Mem [0:4095];
 
 input CLK;
 
+initial begin
+  $display("IN Data Memory");
+  Mem[0] <= 12;
+end
+
 always@(posedge CLK)
 begin
   //assuming the user takes care of not sending both high simultaneously
   if(rd) begin
+    $display("Data at 0 : %d", Mem[0]);
     d_out <= Mem[add_lines];
   end
   if(wr) begin

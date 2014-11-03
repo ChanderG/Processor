@@ -17,3 +17,12 @@ module signExtend23(in, out);
    output [OUTSIZE-1:0] out;
    assign    out = {{ OUTSIZE-INSIZE {in[INSIZE-1]}}, in};
 endmodule
+
+//for use with L instruction
+module signExtend15(in, out);
+   parameter INSIZE = 15, OUTSIZE = 32;
+
+   input [INSIZE-1:0] in;
+   output [OUTSIZE-1:0] out;
+   assign    out = {{ OUTSIZE-INSIZE {in[INSIZE-1]}}, in};
+endmodule

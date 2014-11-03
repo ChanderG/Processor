@@ -24,7 +24,15 @@ module Proc(RESET, startPC);
 
   wire C_ART_reg;   //selection line for mWriteRegB
   wire C_ART_data;   //selection line for mWriteDataB
+  wire C_L_mux;       //selection line for mWriteReg2
   m555 clk(CLK);  //instantiate clock module
+
+  //related to data memory
+  wire C_read_dm;
+  wire C_write_dm;
+  //reg [31:0] data_write_dm = 0;  //data to be written
+  reg [31:0] loc_op_dm; // location to be operated on
+  reg [31:0] data_read_dm;  //data read out
 
   reg [31:0] pc;
   /*
@@ -88,11 +96,20 @@ module Proc(RESET, startPC);
      instr[26:23] -> func code
      instr[22:19] -> the register to compare
      instr[18:0] -> number of words to branch
+
+     for L instruction
+
+     instr[31:27] -> opcode
+     instr[26:23] -> func code
+     instr[22:19] ->the source register
+     instr[18:15] ->the destination register
+     instr[14:0] -> the constant offset from source
   */
 
 
+
   //The control unit
-  control_unit controlUnit(CLK, instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data, C_reg2_aluB_mux, pcSrc, branchIdea, C_offset);
+  control_unit controlUnit(CLK, instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data, C_reg2_aluB_mux, pcSrc, branchIdea, C_offset, C_L_mux, C_sub_mAluInputB_L, C_mDataMemVsAluOutput, C_read_dm, C_write_dm);
 
   //the aluControl unit
   aluControl_unit aluControlUnit(alu_op, instr[26:23], alu_control);
@@ -105,31 +122,45 @@ module Proc(RESET, startPC);
   //wire [3:0] readReg2;
   reg [3:0] writeReg;
   reg [31:0] writeData;
+  reg [3:0] writeRegTemp;
 
   //Mux for write register
-  MUX4_2to1 mWriteRegB (instr[14:11], instr[22:19], C_ART_reg, writeReg);
+  MUX4_2to1 mWriteRegB (instr[14:11], instr[22:19], C_ART_reg, writeRegTemp);
 
   //Sign extending in case of T and I
   wire [31:0] extendedOut;
+  wire [31:0] subFinalRegWriteData;
+  wire [31:0] extendedOut_snd_option;
   signExtend19 sE19(instr[18:0], extendedOut);
 
   //Mux for write data
-  MUX32_2to1 mWriteDataB (alu_output, extendedOut, C_ART_data, writeData);
+  MUX32_2to1 mWriteDataB (subFinalRegWriteData, extendedOut, C_ART_data, writeData);
 
   //wire from read reg 2 to Mux
   reg [31:0] readReg2ToMux;
 
   //MUX for alu input B
-  MUX32_2to1 mAluInputB (readReg2ToMux, extendedOut, C_reg2_aluB_mux, alu_inputB);
+  MUX32_2to1 mAluInputB (readReg2ToMux, extendedOut_snd_option, C_reg2_aluB_mux, alu_inputB);
+
+  //mux between the second input and the o/p of mux(1,3) for the write reg
+  MUX4_2to1 mWriteReg2 (writeRegTemp, instr[18:15], C_L_mux, writeReg);
+
+  //extending the constant in L type
+  wire [31:0] extendedOut_L;
+  signExtend15 sE15(instr[14:0], extendedOut_L);
+
+  MUX32_2to1 sub_mAluInputB_L(extendedOut, extendedOut_L, C_sub_mAluInputB_L, extendedOut_snd_option);
 
 
   //the register file
   //REQ UPDATE
   registerFile registerBank(alu_inputA, readReg2ToMux, instr[22:19], instr[18:15], writeReg, writeData, regWrite, CLK, RESET);
 
-  //example testing
-  initial begin
+  //loc_op_dm <= alu_output;
 
-  end
+
+  MUX32_2to1 mDataMemVsAluOutput(alu_output, data_read_dm, C_mDataMemVsAluOutput, subFinalRegWriteData);
+
+  dataMemory DM(C_read_dm, C_write_dm, data_write_dm, alu_output, data_read_dm, CLK);
 
 endmodule

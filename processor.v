@@ -120,6 +120,10 @@ module Proc(RESET, startPC);
      instr[22:19] ->the source register
      instr[18:15] ->the destination register
      instr[14:0] -> dont care
+
+     for P type <- partial
+     instr[31:27] -> opcode
+     instr[26:23] ->funcCode
   */
 
   //The control unit

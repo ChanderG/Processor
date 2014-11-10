@@ -62,6 +62,9 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_r
           pcSrc <= 0;
           C_L_mux <= 0;
           C_mWwriteDataA <= 0;
+
+          C_read_dm <= 0;
+          C_write_dm <= 0;
       end
       6'b01011: begin    //means T opcode
           $display("T instr found at %d", $time);
@@ -73,6 +76,9 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_r
           pcSrc <= 0;
           C_L_mux <= 0;
           C_mWwriteDataA <= 0;
+
+          C_read_dm <= 0;
+          C_write_dm <= 0;
       end
       6'b00001: begin    //means I opcode
           $display("I instr found at %d", $time);
@@ -86,11 +92,14 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_r
           pcSrc <= 0;
           C_L_mux <= 0;
           C_mWwriteDataA <= 0;
+
+          C_read_dm <= 0;
+          C_write_dm <= 0;
       end
       6'b00011: begin    //means J opcode
           $display("J instr found at %d", $time);
           //ALUop <= 4'b1111;   //Not yet implemented - is dont care - check up!!!!!
-          //regWrite <= 1;
+          regWrite <= 0;
           //muxWriteReg <= 1;         //the reg to write to
           //muxWriteData <= 0;        //the output of the alu
           //C_reg2_aluB_mux <= 1;     //the constant
@@ -98,11 +107,14 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_r
           C_offset <= 0;
           C_L_mux <= 0;
           C_mWwriteDataA <= 0;
+
+          C_read_dm <= 0;
+          C_write_dm <= 0;
       end
       6'b00100: begin    //means M opcode
           $display("M instr found at %d", $time);
           //ALUop <= 4'b1111;   //Not yet implemented - is dont care - check up!!!!!
-          //regWrite <= 1;
+          regWrite <= 0;
           //muxWriteReg <= 1;         //the reg to write to
           //muxWriteData <= 0;        //the output of the alu
           //C_reg2_aluB_mux <= 1;     //the constant
@@ -110,6 +122,9 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_r
           pcSrc <= branchIdea;
           C_L_mux <= 0;
           C_mWwriteDataA <= 0;
+
+          C_read_dm <= 0;
+          C_write_dm <= 0;
       end
       6'b00000: begin    //means L opcode
           //for now only load instruction
@@ -148,7 +163,17 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_r
          regWrite <= 1;
          C_L_mux <= 1;
          C_mWwriteDataA <= 1;
+         C_read_dm <= 0;
+         C_write_dm <= 0;
          end
+
+     6'b00111: begin   //means P type
+         //for now only means nop
+         $display("P instr found at %d", $time);
+         regWrite <= 0;
+         C_read_dm <= 0;
+         C_write_dm <= 0;
+     end
     endcase
   end
 

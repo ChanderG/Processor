@@ -24,6 +24,7 @@ module Proc(RESET, startPC);
 
   wire C_ART_reg;   //selection line for mWriteRegB
   wire C_ART_data;   //selection line for mWriteDataB
+  wire C_mWwriteDataA;
   wire C_L_mux;       //selection line for mWriteReg2
   m555 clk(CLK);  //instantiate clock module
 
@@ -113,14 +114,16 @@ module Proc(RESET, startPC);
      instr[18:15] ->the source register
      instr[14:0] -> the constant offset from source
 
-
+     for Q type
+     instr[31:27] -> opcode
+     instr[26:23] -> func code
+     instr[22:19] ->the source register
+     instr[18:15] ->the destination register
+     instr[14:0] -> dont care
   */
 
-
-
-
   //The control unit
-  control_unit controlUnit(CLK, instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data, C_reg2_aluB_mux, pcSrc, branchIdea, C_offset, C_L_mux, C_sub_mAluInputB_L, C_mDataMemVsAluOutput, C_read_dm, C_write_dm);
+  control_unit controlUnit(CLK, instr[31:27], alu_op, regWrite, C_ART_reg, C_ART_data, C_reg2_aluB_mux, pcSrc, branchIdea, C_offset, C_L_mux, C_sub_mAluInputB_L, C_mDataMemVsAluOutput, C_read_dm, C_write_dm, C_mWwriteDataA);
 
   //the aluControl unit
   aluControl_unit aluControlUnit(alu_op, instr[26:23], alu_control);
@@ -142,10 +145,14 @@ module Proc(RESET, startPC);
   wire [31:0] extendedOut;
   wire [31:0] subFinalRegWriteData;
   wire [31:0] extendedOut_snd_option;
+  wire [31:0] out_mWriteDataB;
   signExtend19 sE19(instr[18:0], extendedOut);
 
   //Mux for write data
-  MUX32_2to1 mWriteDataB (subFinalRegWriteData, extendedOut, C_ART_data, writeData);
+  MUX32_2to1 mWriteDataB (subFinalRegWriteData, extendedOut, C_ART_data, out_mWriteDataB);
+
+  MUX32_2to1 mWriteDataA ( out_mWriteDataB, alu_inputA, C_mWwriteDataA, writeData);
+
 
   //wire from read reg 2 to Mux
   reg [31:0] readReg2ToMux;
@@ -168,7 +175,6 @@ module Proc(RESET, startPC);
   registerFile registerBank(alu_inputA, readReg2ToMux, instr[22:19], instr[18:15], writeReg, writeData, regWrite, CLK, RESET);
 
   //loc_op_dm <= alu_output;
-
 
   MUX32_2to1 mDataMemVsAluOutput(alu_output, data_read_dm, C_mDataMemVsAluOutput, subFinalRegWriteData);
 

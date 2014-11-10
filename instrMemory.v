@@ -21,8 +21,8 @@ module instrMemory(instr, address);
                  $display("Second line of code at %d", $time);
                  end
         32'd08 : begin
-                 instr = 32'b01100000000000001000000000000000;
-                         //st r1, 0(r0) -> store r1 value
+                 instr = 32'b01000000000000001000000000000000;
+                         //mov r1, r0 -> move r0 to r1
                  $display("Third line of code at %d", $time);
                  end
         32'd12 : begin

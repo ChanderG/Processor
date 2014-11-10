@@ -121,6 +121,22 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_r
           C_read_dm <= 1;
           C_write_dm <= 0;
       end
+    6'b01100: begin    //means L2 opcode
+          //for now only store instruction
+          $display("L2 instr found at %d", $time);
+          ALUop <= 4'b0000;   //represents L type instructions
+          regWrite <= 0;
+          //muxWriteData <= 0;        //the output of the alu
+          //C_mDataMemVsAluOutput <= 1;
+          C_reg2_aluB_mux <= 1;     //the constant
+          C_sub_mAluInputB_L <= 1;
+          pcSrc <= 0;
+          //C_L_mux <= 1;
+
+          C_read_dm <= 0;
+          C_write_dm <= 1;
+          end
+
     endcase
   end
 

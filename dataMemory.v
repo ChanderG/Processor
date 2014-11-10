@@ -31,7 +31,10 @@ begin
     d_out <= Mem[add_lines];
   end
   if(wr) begin
-    Mem[add_lines] <= d_in;
+    $display("Reached Data Memory for Writing the value %d", d_in);
+    //need blocking assignment for correct behaviour
+    Mem[add_lines] = d_in;
+    $display("Data W to %d is : %d", add_lines, Mem[add_lines]);
   end
 end
 

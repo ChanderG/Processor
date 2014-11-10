@@ -12,5 +12,8 @@ I will soon post links to the exact specification and the ISA we created.
 ###Known Issues
 1.Works only for positive numbers. Any calculation resulting in negative numbers crashes the m/c.
 
+###Workarounds:
+1.If there are problems with MUX or Z or X is seen unexpectedly, one or more wire/reg may have not been defined.
+
 ###Special Thanks
 1. Pranay Yadav

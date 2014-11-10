@@ -97,14 +97,25 @@ module Proc(RESET, startPC);
      instr[22:19] -> the register to compare
      instr[18:0] -> number of words to branch
 
-     for L instruction
+     for L1 instruction
 
      instr[31:27] -> opcode
      instr[26:23] -> func code
      instr[22:19] ->the source register
      instr[18:15] ->the destination register
      instr[14:0] -> the constant offset from source
+
+     for L2 instruction
+
+     instr[31:27] -> opcode
+     instr[26:23] -> func code
+     instr[22:19] ->the destination register
+     instr[18:15] ->the source register
+     instr[14:0] -> the constant offset from source
+
+
   */
+
 
 
 
@@ -161,6 +172,6 @@ module Proc(RESET, startPC);
 
   MUX32_2to1 mDataMemVsAluOutput(alu_output, data_read_dm, C_mDataMemVsAluOutput, subFinalRegWriteData);
 
-  dataMemory DM(C_read_dm, C_write_dm, data_write_dm, alu_output, data_read_dm, CLK);
+  dataMemory DM(C_read_dm, C_write_dm, readReg2ToMux, alu_output, data_read_dm, CLK);
 
 endmodule

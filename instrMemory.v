@@ -16,13 +16,13 @@ module instrMemory(instr, address);
                   $display("First line of code at %d", $time);
                   end
         32'd04 : begin
-                 instr = 32'b00001000000100000000000000000000;
-                         //addi r2, 0
+                 instr = 32'b01011000000010000000000000000011;
+                         //mov r1, 3
                  $display("Second line of code at %d", $time);
                  end
         32'd08 : begin
-                 instr = 32'b00000000000000001000000000000000;
-                         //ld r1, 0(r0) -> loads
+                 instr = 32'b01100000000000001000000000000000;
+                         //st r1, 0(r0) -> store r1 value
                  $display("Third line of code at %d", $time);
                  end
         32'd12 : begin

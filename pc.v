@@ -1,10 +1,11 @@
 //PC - has the register and increments based on clock
 
 
-module programCounter(next, current, RESET, startPC ,CLK, pcSrc, const);
+module programCounter(next, current, RESET, startPC ,CLK, pcSrc, const, fC);
 output [31:0] next;
 input [31:0] startPC;
 input [31:0] current;
+input fC;
 input RESET;
 input CLK;
 
@@ -22,7 +23,12 @@ begin
  else begin
     case (pcSrc)
       0: next = current+32'd4;
-      1: next = current +32'd4 + 4*const;
+      1: begin
+         case (fC)
+           0: next = current +32'd4 + 4*const;
+           1: next = current +32'd4 - 4*const;
+         endcase
+         end
     endcase
     $display("New instr %d at %d.",next, $time);
  end

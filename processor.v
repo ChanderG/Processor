@@ -1,3 +1,7 @@
+
+
+
+.
 //Processor module
 
 //Right now ONLY supports AR type instructions
@@ -52,14 +56,16 @@ module Proc(RESET, startPC);
 
   MUX32_2to1 mBrOffset (offset1, offset2, C_offset, offset_res);
 
-  programCounter pcManager(pc, pc, RESET, startPC, CLK, pcSrc, offset_res);
+  wire fC;
+
+  programCounter pcManager(pc, pc, RESET, startPC, CLK, pcSrc, offset_res, fC);
 
   reg [31:0] instr;    //the actual instruction read from memory
 
   instrMemory im(instr, pc);
 
   reg branchIdea;
-  branchComparator bc(alu_inputA, instr[26:23], branchIdea);
+  branchComparator bc(alu_inputA, instr[26:23], branchIdea, fC);
 
   /* implying ->
      considering for a AR instruction

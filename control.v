@@ -100,31 +100,29 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_r
           $display("J instr found at %d", $time);
           //ALUop <= 4'b1111;   //Not yet implemented - is dont care - check up!!!!!
           regWrite <= 0;
-          //muxWriteReg <= 1;         //the reg to write to
-          //muxWriteData <= 0;        //the output of the alu
-          //C_reg2_aluB_mux <= 1;     //the constant
-          pcSrc <= 1;
+          pcSrc <= branchIdea;
           C_offset <= 0;
           C_L_mux <= 0;
           C_mWwriteDataA <= 0;
-
           C_read_dm <= 0;
           C_write_dm <= 0;
+          //muxWriteReg <= 1;         //the reg to write to
+          //muxWriteData <= 0;        //the output of the alu
+          //C_reg2_aluB_mux <= 1;     //the constant
       end
       6'b00100: begin    //means M opcode
           $display("M instr found at %d", $time);
           //ALUop <= 4'b1111;   //Not yet implemented - is dont care - check up!!!!!
           regWrite <= 0;
-          //muxWriteReg <= 1;         //the reg to write to
-          //muxWriteData <= 0;        //the output of the alu
-          //C_reg2_aluB_mux <= 1;     //the constant
           C_offset <= 1;
           pcSrc <= branchIdea;
           C_L_mux <= 0;
           C_mWwriteDataA <= 0;
-
           C_read_dm <= 0;
           C_write_dm <= 0;
+          //muxWriteReg <= 1;         //the reg to write to
+          //muxWriteData <= 0;        //the output of the alu
+          //C_reg2_aluB_mux <= 1;     //the constant
       end
       6'b00000: begin    //means L opcode
           //for now only load instruction
@@ -147,16 +145,16 @@ module control_unit(CLK, opcode, ALUop, regWrite, muxWriteReg, muxWriteData, C_r
           $display("L2 instr found at %d", $time);
           ALUop <= 4'b0000;   //represents L type instructions
           regWrite <= 0;
-          //muxWriteData <= 0;        //the output of the alu
-          //C_mDataMemVsAluOutput <= 1;
           C_reg2_aluB_mux <= 1;     //the constant
           C_sub_mAluInputB_L <= 1;
           pcSrc <= 0;
-          //C_L_mux <= 1;
-
           C_read_dm <= 0;
           C_write_dm <= 1;
           C_mWwriteDataA <= 0;
+
+          //muxWriteData <= 0;        //the output of the alu
+          //C_mDataMemVsAluOutput <= 1;
+          //C_L_mux <= 1;
           end
     6'b01000: begin    //means Q opcode
          $display("Q instr found at %d", $time);

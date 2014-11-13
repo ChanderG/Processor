@@ -19,9 +19,9 @@ module topLevelRunner(RESET, startPC);
 
      #101
      RESET <= 1;
-     #1000
+     #10000
      RESET <= 0;
-     $finish;
+     //$finish;
 
   end
 

@@ -25,6 +25,9 @@ module sub(
     output Cout
     );
 
+    reg [31:0] sum1;
+    reg [31:0] sum2;
+
     //This is the structuaral version.
 
      //This does not consider negative numbers.
@@ -33,5 +36,11 @@ module sub(
 
      //For negative numbers
 
+
+     always @(*)
+     begin
+
+
+     end
 
 endmodule

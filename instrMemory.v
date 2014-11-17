@@ -55,15 +55,16 @@ module instrMemory(instr, address);
          32'd08 : instr =
         */
 
+        //GCD code
 
         32'd00 : begin
                  instr = 32'b01011000000000000000000000000001;
                          //movi r0, 1
-                  $display("First line of code at %d", $time);
-                  end
+                 $display("First line of code at %d", $time);
+                 end
         32'd04 : begin
-                 instr = 32'b01011000000010000000000000000011;
-                         //mov r1, 3
+                 instr = 32'b01011000000010000000000000000010;
+                         //mov r1, 2
                  $display("Second line of code at %d", $time);
                  end
         32'd08 : begin
@@ -113,14 +114,62 @@ module instrMemory(instr, address);
                  end
        32'd44 : begin
                  instr = 32'b00011000100000000000000000001010;
-                         //b -9
+                         //b -10
                  $display("12th line of code at %d", $time);
                  end
        32'd48 : begin
-                 //instr = 32'b00011 000100000000000000000001010;
-                         //b -9
-                 $display("End of code at %d", $time);
+                 instr = 32'b01000000000000001000000000000000;
+                         //mov r1, r0
+                 $display("End of code. Ans is x %d", $time);
                  end
+       /*32'd52 : begin
+                 instr = 32'b01000 0000 0000 0001 000000000000000;
+                         //mov r1, r0
+                 $display("End of code. Ans is x %d", $time);
+                 end
+       */
+       /* Simple test for bz
+       32'd00 : begin
+                 instr = 32'b01011000000010000000000000000000;
+                         //movi r1, 0
+                  $display("First line of code at %d", $time);
+                  end
+        32'd04 : begin
+                 instr = 32'b00100000000010000000000000000100;
+                         //bz y 4
+                 $display("Second line of code at %d", $time);
+                 end
+        32'd08 : begin
+                 instr = 32'b00010000100010000001000000000000;
+                         //sub r2, r1, r0
+                 $display("Third line of code at %d", $time);
+                 end
+        32'd12 : begin
+                 instr = 32'b00100000100100000000000000000011;
+                         //bmi 3
+                 $display("Fourth line of code at %d", $time);
+                 end
+        32'd16 : begin
+                 instr = 32'b01000000000010011000000000000000;
+                         //mov r3, r1
+                 $display("Fifth line of code at %d", $time);
+                 end
+        32'd20 : begin
+                 instr = 32'b01000000000000001000000000000000;
+                         //mov r1, r0
+                 $display("Sixth line of code at %d", $time);
+                 end
+        32'd24 : begin
+                 instr = 32'b01000000000110000000000000000000;
+                         //mov r0, r3
+                 $display("Seventh line of code at %d", $time);
+                 end
+        32'd28 : begin
+                 instr = 32'b01000000000110000000000000000000;
+                         //mov r0, r3
+                 $display("Eigth line of code at %d", $time);
+                 end
+        */
        endcase
     end
 

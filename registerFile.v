@@ -47,10 +47,10 @@ module registerFile(Read1, Read2,Raddr1, Raddr2, Waddr,Writedata,RegWr, CLK, RES
         begin
             registers[Waddr] = Writedata;
             $display("RW = %d at %d", RegWr, $time);
-            $display("WD = %d", Writedata);
             $display("Waddress = %d", Waddr);
             $display("WD = %d", registers[Waddr]);
-            //$display("Answer: %d + %d = %d", registers[0], registers[1], registers[2]);
+
+            $display("x = %d, y = %d", registers[0],registers[1]);
         end
     end
 

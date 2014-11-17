@@ -3,7 +3,7 @@
 
 module branchComparator(reg1, funcCode, branchIdea, fC, opCode);
 
-input reg1;
+input [31:0] reg1;
 input [4:0] opCode;
 input [3:0] funcCode;
 output reg branchIdea;
@@ -18,9 +18,12 @@ case(funcCode)
                         fC = 0;
                        end
              5'b00100: begin
-           if(reg1 == 0) branchIdea = 1;
-           else branchIdea = 0;
-             end
+                         if(reg1 == 0) begin
+                            branchIdea = 1;
+                            fC = 0;
+                         end
+                         else branchIdea = 0;
+                       end
            endcase
            end
   4'b0010:begin
@@ -35,7 +38,12 @@ case(funcCode)
                        end
              5'b00100: begin
                        $display("Expected path");
-                         if(reg1 < 0) branchIdea = 1;
+                         //if(reg1[31] == 1) branchIdea = 1;
+                         if(reg1 > 2147483647) begin
+                           branchIdea = 1;
+                           fC = 0;
+                         end  
+                         //((reg1 < 0)||
                          else branchIdea = 0;
                        end
            endcase

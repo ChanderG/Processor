@@ -58,13 +58,13 @@ module instrMemory(instr, address);
         //GCD code
 
         32'd00 : begin
-                 instr = 32'b01011000000000000000000000000001;
-                         //movi r0, 1
+                 instr = 32'b01011000000000000000000000001000;
+                         //movi r0, 8
                  $display("First line of code at %d", $time);
                  end
         32'd04 : begin
-                 instr = 32'b01011000000010000000000000000010;
-                         //mov r1, 2
+                 instr = 32'b01011000000010000000000000010000;
+                         //mov r1, 16
                  $display("Second line of code at %d", $time);
                  end
         32'd08 : begin
